@@ -1,15 +1,13 @@
 # Eventer
 
-Eventer есть простой движокъ для управления событями класса.
+Eventer есть простой движокъ для управленія событіями класса.
 
-Eventer is simple engine to control custom class events.
+## Использованіе
 
-## Использованіе (Usage)
+### Созданіе и установка обработчика
 
-### Используя методъ экземпляра класса (Using the class instance method)
-Создай класс, и задай допустимыя для него событія. Затѣмъ создай экземпляръ класса и задай обработчикъ событія въ блокѣ съ помощью метода 'on_...' экземпляра класса, гдѣ вмѣсто ... задай имя событія. А потомъ, по необходимости, дёрни событіе методомъ 'event' экземпляра класса. А плодомъ выполненія сего метода будетъ словарь (Hash) съ ключами какъ экземплярами класса Proc отражающими вызванные обработчики и со значеніями какъ плодами работы сихъ обработчиковъ:
+Создай классъ, и задай допустимыя для него событія. Затѣмъ создай екземпляръ класса и опредѣли обработчикъ событія въ блокѣ съ помощью метода 'on_...' екземпляра класса, гдѣ вмѣсто ... установи имя событія. Для каждаго предопредѣленнаго событія можно закладывать неограниченное количество обработчиковъ.
 
-Make a class, and set the allowable events for it. Then create a class instance, and set handler to process an event as a block using 'on_...' method of the class instance, where instead ... put the name of the event. And then, if needed, trigger event with the 'event' method of the class instance. The result is a Hash with keys as the handler block instance, and values as the handler's output:
 
     class Test
       events :event
@@ -19,13 +17,21 @@ Make a class, and set the allowable events for it. Then create a class instance,
 
     t.on_event do |args|
       "Matched"
-    end # -> {<#Proc...> => "Matched"}
+    end
 
-# Права (Copyright)
+### Задѣствованіе обработчика
+
+Чтобы событіе сработало, вызови методъ event, задѣйствующій всѣ установленныя обработчики. Методъ же сей вернётъ наборъ съ словарями для каждаго из обработчиковъ. Словарь при семъ будетъ содержать обѣ ключъ-значеніе, выраженныя какъ указатель на обработчикъ и плодъ его выполненія.
+
+    t.event :event, args... # -> [{<#Proc...> => "Matched"}, ...]
+
+Есть также процедура съ выводомъ болѣе простаго результата въ видѣ набора значеній, полученныхъ изъ оныхъ обработчиковъ.
+
+    t.event_rs :event, args... # -> ["Matched", ...]
+
+# Права
 
 Авторскія и исключительныя права (а) 2011 Малъ Скрылевъ
 Зри LICENSE за подробностями.
 
-Copyright (c) 2011 Malo Skrylevo
-See LICENSE for details.
 
