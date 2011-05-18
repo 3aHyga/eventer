@@ -28,8 +28,31 @@ Also, there is the procedure allowing to output the simple result value as an Ar
 
     t.event_rs :event, args... # -> ["Matched", ...]
 
+### Cleanup
+
+Thou canst clean up the handlers and even events with the methods 'purge_handlers', and 'purge_events' as follows:
+
+    t.on_event do |args|
+      "Matched"
+    end
+
+    t.purge_handlers :event
+    # or:
+    t.purge_handlers
+
+    t.event :event # => []
+
+and events:
+
+    t.on_event do |args|
+      "Matched"
+    end
+
+    t.purge_events :event
+
+    t.event :event # => exception Eventer::UnknownEventError 
+
 # Copyright
 
-Copyright (c) 2011 Malo Skrylevo
+Copyright (c) 2011 Malo Skrylevo.
 See LICENSE for details.
-

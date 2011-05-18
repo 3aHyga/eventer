@@ -23,14 +23,12 @@ public
   def event(event, *args)
     res = {}
 
-    if @__events__
-      if @__events__[event]
-	@__events__[event].each do |event_h|
-	  res[event_h] = event_h.call(*args)
-	end
-      else
-	[]
+    if @__events__ && @__events__[event]
+      @__events__[event].each do |event_h|
+	res[event_h] = event_h.call(*args)
       end
+    elsif self.methods.include?( eval ":on_#{event}" )
+      return []
     else
       raise UnknownEventError.new event
     end
@@ -39,9 +37,18 @@ public
   end
 
   def purge_events(*events)
-    (events.empty? ? @__events__ : events).each do |e|
-	@__events__[e].clear if @__events__[e]
-    end if @__events__
+    (events.empty? ? @__events__.keys : events).each do |e|
+      self.class.class_eval "undef_method :on_#{e}"
+      @__events__.delete(e)
+    end
+  end
+
+  def purge_handlers(*events)
+    if @__events__
+      (events.empty? ? @__events__.keys : events).each do |e|
+	  @__events__[e].clear if @__events__.key? e
+      end
+    end
   end
 
   def event_rs(event, *args)

@@ -57,6 +57,96 @@ describe 'Eventer' do
 
     raise "Event result isn't matched" if (not o) or (o != true)
   end
+
+  it "Purge all event handlers" do
+    class Test
+      events :event
+    end
+
+    t = Test.new
+
+    t.on_event do |args|
+      "Matched"
+    end
+
+    t.purge_handlers
+
+    o = t.event_rs :event
+
+    raise "Event result isn't matched" if o != [ ]
+  end
+
+  it "Purge the specific event handlers" do
+    class Test
+      events :event
+    end
+
+    t = Test.new
+
+    t.on_event do |args|
+      "Matched"
+    end
+
+    t.purge_handlers :event
+
+    o = t.event_rs :event
+
+    raise "Event result isn't matched" if o != [ ]
+  end
+
+  it "Purge all events" do
+    class Test
+      events :event
+    end
+
+    t = Test.new
+
+    t.on_event do |args|
+      "Matched"
+    end
+
+    t.purge_events
+
+    o = begin
+      t.event_rs :event
+    rescue Eventer::UnknownEventError
+      true
+    end
+
+    raise "Event result isn't matched" if (not o) or (o != true)
+  end
+
+  it "Purge the specific event" do
+    class Test
+      events :event
+    end
+
+    t = Test.new
+
+    t.on_event do |args|
+      "Matched"
+    end
+
+    t.purge_events :event
+
+    o = begin
+      t.event_rs :event
+    rescue Eventer::UnknownEventError
+      true
+    end
+
+    raise "Event result isn't matched" if (not o) or (o != true)
+  end
+
+  it "Handler isn't defined" do
+    class Test
+      events :event
+    end
+
+    t = Test.new
+
+    o = t.event_rs :event
+
+    raise "Event result isn't matched" if o != [ ]
+  end
 end
-
-
