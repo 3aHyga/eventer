@@ -1,13 +1,12 @@
 # Eventer
 
-Eventer есть простой движокъ для управленія событіями класса.
+Eventer is simple engine to control custom class events.
 
-## Использованіе
+## Usage
 
-### Созданіе и установка обработчика
+### Creation, and setup a handler
 
-Создай классъ, и задай допустимыя для него событія. Затѣмъ создай екземпляръ класса и опредѣли обработчикъ событія въ блокѣ съ помощью метода 'on_...' екземпляра класса, гдѣ вмѣсто ... установи имя событія. Для каждаго предопредѣленнаго событія можно закладывать неограниченное количество обработчиковъ.
-
+Make a class, and set the allowable events for it. Then create a class instance, and set handler to process an event as a block using 'on_...' method of the class instance, where instead ... put the name of the event. For an each of events, thou canst setup an unlimited number of handlers.
 
     class Test
       events :event
@@ -19,31 +18,31 @@ Eventer есть простой движокъ для управленія со�
       "Matched"
     end
 
-### Задѣствованіе обработчика
+### Triggering the handlers
 
-Чтобы событіе сработало, вызови методъ event, задѣйствующій всѣ установленныя обработчики. Методъ же сей вернётъ наборъ съ словарями для каждаго из обработчиковъ. Словарь при семъ будетъ содержать обѣ ключъ-значеніе, выраженныя какъ указатель на обработчикъ и плодъ его выполненія.
+In order to the event triggers, call 'event' method, that enumerates and calls all settled handlers. The 'event' method will return an Array, with a Hash values. The Hash will contain the pair as seen as the Proc pointer, and a result value.
 
     t.event :event, args... # -> [{<#Proc...> => "Matched"}, ...]
 
-Есть также процедура съ выводомъ болѣе простаго результата въ видѣ набора значеній, полученныхъ изъ оныхъ обработчиковъ.
+Also, there is the procedure allowing to output the simple result value as an Array with values from each handler.
 
     t.event_rs :event, args... # -> ["Matched", ...]
 
-### Очистка
+### Cleanup
 
-Очистить обработчики или сами событія можно съ помощью методовъ 'purge_handlers' и 'purge_events' такъ:
+Thou canst clean up the handlers and even events with the methods 'purge_handlers', and 'purge_events' as follows:
 
     t.on_event do |args|
       "Matched"
     end
 
     t.purge_handlers :event
-    # или такъ:
+    # or:
     t.purge_handlers
 
     t.event :event # => []
 
-и событія:
+and events:
 
     t.on_event do |args|
       "Matched"
@@ -51,9 +50,9 @@ Eventer есть простой движокъ для управленія со�
 
     t.purge_events :event
 
-    t.event :event # => исключеніе Eventer::UnknownEventError 
+    t.event :event # => exception Eventer::UnknownEventError 
 
-# Права
+# Copyright
 
-Авторскія и исключительныя права (а) 2011 Малъ Скрылевъ.
-Зри LICENSE за подробностями.
+Copyright (c) 2011 Malo Skrylevo.
+See LICENSE for details.
